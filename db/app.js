@@ -1,6 +1,4 @@
-const express = require('express'); /*Express.js is primarily used as a web server framework for Node.js. 
-It simplifies the process of handling HTTP requests and responses by providing a set of powerful features 
-and middleware that can be easily integrated into your Node.js applications*/
+const express = require('express');
 const app = express(); //make the imported module in executable state
 app.use(express.json());
 require('./dbConnect')
