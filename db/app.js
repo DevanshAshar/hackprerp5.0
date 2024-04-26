@@ -1,9 +1,12 @@
 const express = require('express');
-const app = express(); //make the imported module in executable state
+const app = express(); 
+const cors=require('cors')
+//make the imported module in executable state so that u can perform operations on it and make APIs
 app.use(express.json()); //parses the input request data in json format to the server
 /* When a client sends data to your server in JSON format, 
-this middleware will parse that JSON data and make it accessible in your server-side code.*/
+this will parse that JSON data and make it accessible in your server-side code.*/
 const mongoose=require('mongoose') // mongoose is node js library that helps in working with mongodb
+app.use(cors())
 const dotenv=require('dotenv').config()
 const db=process.env.MONGO_URL
 async function connectToDb(){
@@ -30,9 +33,9 @@ const Expense=mongoose.model("Expense",expenseSchema)
 app.get('/expenses', async function getExpenses(req, res){
     try {
         const expenses=await Expense.find()
-        res.status(200).send(expenses)
+        res.status(200).json(expenses)
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).json(error)
     }
 });
 app.post('/expenses', async function addExpense(req, res){
@@ -47,7 +50,7 @@ app.put('/expenses',async function updateExpense(req,res){
     try {
         const id=req.body.id
         const expense=await Expense.findByIdAndUpdate(id,req.body,{new:true})
-        res.status(200).send({Updated:'true',expense})
+        res.status(200).json({Updated:'true',expense})
     } catch (error) {
         res.status(500).send(error)
     }
@@ -61,6 +64,10 @@ app.delete('/expenses',async function deleteExpense(req,res){
         res.status(500).send(error)
     }
 })
-app.listen(5000,function serverOn(){
+app.get('/',function test(req,res){
+    // res.json({data:'Lessgo API working'})
+    res.json('lessgo')
+})
+app.listen(5000,function serverOn(){ //through this our express app will listen on port 5000
     console.log('Server running...')
 })
