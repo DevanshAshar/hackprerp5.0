@@ -24,7 +24,6 @@ app.get('/expenses', (req, res) => {
 app.post('/expenses', (req, res) => {
   const amount = req.body.amount;
   const title = req.body.title;
-  const date = req.body.date;
   let nextId
   if(expenses.length>0){
     const latestExpense= expenses[expenses.length - 1]
