@@ -11,7 +11,6 @@ const expenses = [
   {
     title: 'Pav Bhaji',
     amount: 200,
-    date: '27-04-24',
     category: 'Food',
     id: 1
   }
@@ -22,12 +21,17 @@ app.get('/expenses', (req, res) => {
   res.send(expenses);
 });
 
-
 app.post('/expenses', (req, res) => {
   const amount = req.body.amount;
   const title = req.body.title;
   const date = req.body.date;
-  const nextId = expenses.length > 0 ? expenses[expenses.length - 1].id + 1 : 1;
+  let nextId
+  if(expenses.length>0){
+    const latestExpense= expenses[expenses.length - 1]
+    nextId=latestExpense.id+1
+  }else{
+    nextId=1
+  }
   const expense = {
     amount: amount,
     title: title,
@@ -45,20 +49,24 @@ app.get('/', (req, res) => {
 
 app.put('/expenses', (req, res) => {
   let id = req.body.id;
-  let expense = expenses.find((expense) => expense.id == id);
-  expense.title = req.body.title;
-  expense.date = req.body.date;
-  expense.amount = req.body.amount;
-  res.send({message:'Updated',expense});
+  let exp = expenses.find(function(e) {
+    return e.id === id;
+  });
+  exp.title = req.body.title;
+  exp.date = req.body.date;
+  exp.amount = req.body.amount;
+  res.send({message:'Updated',exp});
 });
 
 
 app.delete('/expenses', (req, res) => {
   let id = req.body.id;
-  let expense = expenses.find((expense) => expense.id == id);
-  let index = expenses.indexOf(expense);
+  let exp = expenses.find(function(e) {
+    return e.id === id;
+  });
+  let index = expenses.indexOf(exp);
   expenses.splice(index,1);
-  res.send({message:'Deleted',expenses});
+  res.send({message:'Deleted',exp});
 });
 
 app.listen(3001, () => {
