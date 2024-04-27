@@ -1,5 +1,4 @@
 //npm i -g nodemon
-//without db
 
 const express = require('express');
 const app = express();
@@ -9,7 +8,7 @@ const cors = require('cors');
 app.use(cors());
 const expenses = [
   {
-    title: 'Pav Bhaji',
+    title: 'Pizza',
     amount: 200,
     category: 'Food',
     id: 1
@@ -17,11 +16,11 @@ const expenses = [
 ];
 
 
-app.get('/expenses', (req, res) => {
+app.get('/expenses', function(req, res){
   res.send(expenses);
 });
 
-app.post('/expenses', (req, res) => {
+app.post('/expenses', function(req, res)  {
   const amount = req.body.amount;
   const title = req.body.title;
   let nextId
@@ -41,12 +40,12 @@ app.post('/expenses', (req, res) => {
 });
 
 
-app.get('/', (req, res) => {
+app.get('/',function (req, res){
   res.send('API is working!');
 });
 
 
-app.put('/expenses', (req, res) => {
+app.put('/expenses', function(req, res) {
   let id = req.body.id;
   let exp = expenses.find(function(e) {
     return e.id === id;
@@ -58,7 +57,7 @@ app.put('/expenses', (req, res) => {
 });
 
 
-app.delete('/expenses', (req, res) => {
+app.delete('/expenses', function(req, res){
   let id = req.body.id;
   let exp = expenses.find(function(e) {
     return e.id === id;
@@ -68,6 +67,6 @@ app.delete('/expenses', (req, res) => {
   res.send({message:'Deleted',exp});
 });
 
-app.listen(3001, () => {
+app.listen(3001, function() {
   console.log('Server is running!!');
 });
